@@ -1,4 +1,4 @@
-import { Job } from "../models/job.model";
+import { Job } from "../models/job.model.js";
 
 export const postJob = async (req,res) => {
     try {
@@ -10,6 +10,7 @@ export const postJob = async (req,res) => {
                 success:false
             }) 
         }
+        const userId = req.id;
         
         const job = await Job.create({
             title,
@@ -30,7 +31,7 @@ export const postJob = async (req,res) => {
             success:true
         })
 
-        const userId = req.id;
+        
     } catch (error) {
         console.error(error);
         
@@ -48,7 +49,9 @@ export const getAllJobs = async (req,res) => {
         }
 
         //filter for job search
-        const jobs = await Job.find(query);
+        const jobs = await Job.find(query).populate({
+            path:"company"
+        }).sort({createdAt: -1});
         if (!jobs) {
             return res.status(404).json({
                 message:"Jobs not found!",
@@ -58,7 +61,7 @@ export const getAllJobs = async (req,res) => {
 
         return res.status(200).json({
             jobs,
-            sucess:true
+            success:true
         })
     } catch (error) {
         console.error(error);

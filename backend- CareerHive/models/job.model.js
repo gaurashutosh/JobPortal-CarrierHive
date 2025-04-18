@@ -43,7 +43,7 @@ const jobSchema = new mongoose.Schema({
 
     company:{
         type:mongoose.Schema.Types.ObjectId, 
-        ref:'Comapny',
+        ref:'Company',
         required:true
     },
 
@@ -55,9 +55,9 @@ const jobSchema = new mongoose.Schema({
 
     applications:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Applications',
+        ref:'Application',
     }]
 },
 {timestamps:true});
 
-export const Job = mongoose.Schema('Job',jobSchema);
+export const Job = mongoose.model('Job',jobSchema);
